@@ -74,12 +74,16 @@ This tradeoff is reasonable for this scenario because the app is designed for a 
 **a. How you used AI**
 
 - How did you use AI tools during this project (for example: design brainstorming, debugging, refactoring)?
+I used AI mainly for design brainstorming, structuring my classes, and refining my scheduling logic. It helped me break down the problem into manageable components and suggested cleaner ways to implement task selection. The most helpful prompts were specific ones about improving logic or deciding where certain features should belong in the system.
 - What kinds of prompts or questions were most helpful?
 
 **b. Judgment and verification**
 
 - Describe one moment where you did not accept an AI suggestion as-is.
+One moment I did not accept an AI suggestion was when it provided a more compact, Pythonic version of my scheduling algorithm. While it was shorter, it reduced readability. I evaluated it by comparing how easy each version was to understand and debug, and chose to keep my original version because it was clearer.
 - How did you evaluate or verify what the AI suggested?
+
+
 
 ---
 
@@ -89,11 +93,13 @@ This tradeoff is reasonable for this scenario because the app is designed for a 
 
 - What behaviors did you test?
 - Why were these tests important?
+I tested behaviors such as selecting tasks within the available time, prioritizing higher priority tasks, and ensuring tasks were added correctly to the daily plan. These tests were important to confirm that the scheduler followed the intended rules and produced a valid plan.
 
 **b. Confidence**
 
 - How confident are you that your scheduler works correctly?
 - What edge cases would you test next if you had more time?
+I am fairly confident that my scheduler works correctly for standard cases. If I had more time, I would test edge cases such as tasks with equal priority, very limited available time, and handling recurring tasks more thoroughly.
 
 ---
 
@@ -102,11 +108,15 @@ This tradeoff is reasonable for this scenario because the app is designed for a 
 **a. What went well**
 
 - What part of this project are you most satisfied with?
+Opening the strealit at the end was very satisfying 
 
 **b. What you would improve**
 
 - If you had another iteration, what would you improve or redesign?
+If I had another iteration, I would improve the scheduling logic to handle more realistic scenarios, such as overlapping tasks or more flexible time allocation.
 
 **c. Key takeaway**
 
 - What is one important thing you learned about designing systems or working with AI on this project?
+
+I learned that ai has gotten really good and its use cases expand each day with its effectiveness. 

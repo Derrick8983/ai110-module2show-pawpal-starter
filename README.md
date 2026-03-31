@@ -22,6 +22,31 @@ Your final app should:
 - Display the plan clearly (and ideally explain the reasoning)
 - Include tests for the most important scheduling behaviors
 
+## Features
+
+### Priority-based scheduling
+The `Scheduler` selects tasks greedily from highest to lowest priority until the owner's available time is exhausted. Three strategies are supported — `"priority"` (by priority number), `"shortest_first"` (by duration), and `"balanced"` (priority first, duration as tiebreaker) — controlled by the `strategy` parameter at construction time.
+
+### Sorting by time
+`Scheduler.sort_by_time(tasks)` performs a stable sort of any task list by `start_time` (stored as minutes from midnight, e.g. `480` = 08:00). Tasks with no `start_time` are appended at the end. `DailyPlan.get_summary()` calls this automatically so every printed schedule reads chronologically regardless of insertion order.
+
+### Filtering by pet or completion status
+`Scheduler.filter_tasks(tasks, pet_name, completed)` applies up to two independent filters in one pass. Either argument can be omitted to skip that axis. Matching tasks for a single pet, only pending work, or a specific pet's completed tasks all use the same method:
+```python
+scheduler.filter_tasks(tasks, pet_name="Luna", completed=False)
+```
+
+### Daily and weekly recurrence
+`CareTask` carries `recurrence` (`"daily"` / `"weekly"`) and `recurrence_days` (list of weekday ints, 0 = Monday). Before building a plan, `Scheduler.expand_recurring_tasks(tasks, plan_date)` drops tasks not due on that date. When a recurring task is marked done, `Scheduler.complete_recurring_task(task, from_date)` marks it complete and returns a fresh clone with a new `task_id`, `completed=False`, and `scheduled_date` set to the next valid occurrence date.
+
+### Conflict detection
+`Scheduler.detect_conflicts(tasks)` sorts timed tasks by `start_time` and sweeps forward to find every pair whose windows overlap (`task_b.start_time < task_a.start_time + task_a.duration_minutes`). Each result is a `Conflict` dataclass with `task_a`, `task_b`, and a `same_pet` boolean so callers can separately surface double-booked single-animal conflicts from simultaneous multi-pet demands.
+
+### Plan explanation
+After selecting tasks, `Scheduler.explain_plan(plan)` writes a plain-English summary of how many tasks were chosen, their names, total time, and which strategy was used. This is stored in `DailyPlan.reasoning` and printed at the bottom of every schedule.
+
+---
+
 ## Smarter Scheduling
 
 The scheduling logic in `pawpal_system.py` goes beyond a basic priority sort. Four capabilities were added to `CareTask`, `DailyPlan`, and `Scheduler`:

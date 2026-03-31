@@ -125,7 +125,18 @@ if st.button("Generate Schedule"):
     else:
         st.success(f"Scheduled {len(plan.tasks)} task(s) — {plan.total_time_used()} min used of {owner.time_available_minutes} min.")
         st.markdown("### Today's Plan")
-        for task in plan.tasks:
+        for task in scheduler.sort_by_time(plan.tasks):
             pet_label = f" — {task.pet_name}" if task.pet_name else ""
-            st.markdown(f"- **{task.name}**{pet_label} | {task.duration_minutes} min | priority {task.priority}")
+            if task.start_time is not None:
+                h, m = divmod(task.start_time, 60)
+                time_label = f" @{h:02d}:{m:02d}"
+            else:
+                time_label = ""
+            st.markdown(f"- **{task.name}**{pet_label}{time_label} | {task.duration_minutes} min | priority {task.priority}")
         st.info(plan.reasoning)
+
+        conflicts = scheduler.detect_conflicts(plan.tasks)
+        if conflicts:
+            st.warning(f"⚠ {len(conflicts)} scheduling conflict(s) detected:")
+            for c in conflicts:
+                st.markdown(f"  - {c}")
