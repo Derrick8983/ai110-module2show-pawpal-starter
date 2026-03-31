@@ -63,7 +63,9 @@ ladded a pet_name field to CareTask so tasks can be traced back to their pet, up
 **b. Tradeoffs**
 
 - Describe one tradeoff your scheduler makes.
+One tradeoff my scheduler makes is that it prioritizes simplicity over handling every real world time case. Right now, it mainly selects tasks based on priority, duration, and available time instead of checking for more complex overlaps or flexible scheduling windows. This makes the algorithm easier to understand, test, and maintain, but it also means the schedule is less realistic in situations where tasks could partially overlap or be moved around more dynamically. I chose to keep this simpler version because it is more readable and fits the scope of the project better.
 - Why is that tradeoff reasonable for this scenario?
+This tradeoff is reasonable for this scenario because the app is designed for a busy pet owner who needs a quick and clear daily plan rather than a perfectly optimized schedule. A simpler approach ensures the plan is easy to generate and explain, which aligns with the goal of providing a helpful and understandable assistant rather than a highly complex scheduling system.
 
 ---
 

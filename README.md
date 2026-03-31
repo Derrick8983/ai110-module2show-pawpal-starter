@@ -22,6 +22,33 @@ Your final app should:
 - Display the plan clearly (and ideally explain the reasoning)
 - Include tests for the most important scheduling behaviors
 
+## Smarter Scheduling
+
+The scheduling logic in `pawpal_system.py` goes beyond a basic priority sort. Four capabilities were added to `CareTask`, `DailyPlan`, and `Scheduler`:
+
+### Sort by time
+`Scheduler.sort_by_time(tasks)` orders any list of `CareTask` objects by their `start_time` (minutes from midnight). Tasks without a `start_time` are placed at the end. `DailyPlan.get_summary()` uses this automatically so the printed schedule always reads chronologically.
+
+### Filter by pet or status
+`Scheduler.filter_tasks(tasks, pet_name=None, completed=None)` narrows a task list by one or both criteria. Pass a pet name, a completion flag (`True`/`False`), or both together:
+
+```python
+# Buddy's pending tasks only
+scheduler.filter_tasks(tasks, pet_name="Buddy", completed=False)
+```
+
+### Recurring tasks
+`CareTask` now has `recurrence` (`"daily"` or `"weekly"`) and `recurrence_days` (list of weekday ints, 0 = Monday) fields. `Scheduler.expand_recurring_tasks(tasks, plan_date)` filters the task list to only those due on a given date before building the plan. When a recurring task is completed, `Scheduler.complete_recurring_task(task, from_date)` marks it done and returns a fresh copy scheduled for the next occurrence.
+
+### Conflict detection
+`Scheduler.detect_conflicts(tasks)` returns a list of `Conflict` objects for any tasks whose time windows overlap. Each `Conflict` carries a `same_pet` flag so you can distinguish a double-booked single animal from two pets needing simultaneous attention:
+
+```python
+conflicts = scheduler.detect_conflicts(owner.get_tasks())
+same_pet  = [c for c in conflicts if c.same_pet]
+cross_pet = [c for c in conflicts if not c.same_pet]
+```
+
 ## Getting started
 
 ### Setup
