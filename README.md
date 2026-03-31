@@ -68,3 +68,12 @@ pip install -r requirements.txt
 5. Add tests to verify key behaviors.
 6. Connect your logic to the Streamlit UI in `app.py`.
 7. Refine UML so it matches what you actually built.
+
+python -m pytest
+platform linux -- Python 3.12.1, pytest-9.0.2, pluggy-1.6.0
+rootdir: /workspaces/ai110-module2show-pawpal-starter
+plugins: anyio-4.11.0
+collected 9 items                                                                                                                                   
+
+tests/test_pawpal.py .....
+5 stars
