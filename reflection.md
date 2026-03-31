@@ -3,14 +3,53 @@
 ## 1. System Design
 
 **a. Initial design**
-
+Make a plan for the day for a pet
+Add different pets by names
+Make scedule for a pet
 - Briefly describe your initial UML design.
+The system has six classes: Pet and CareTask are dataclasses that store pet profiles and care activities. PetOwner tracks the owner's time budget and task list, while CareTaker handles delegated tasks. Scheduler applies a priority-based strategy to select tasks within the time limit, producing a DailyPlan that holds the final schedule and reasoning.
+
+
 - What classes did you include, and what responsibilities did you assign to each?
+
+PetOwner
+Attributes
+name
+available_time_per_day
+preferences
+maybe contact/reminder preference later
+Methods
+update_preferences()
+set_available_time()
+view_daily_plan()
+
+CareTask
+Attributes
+name
+duration
+priority
+Methods
+edit_task()
+
+Scheduler
+Attributes
+tasks
+time_limit
+Methods
+generate_plan()
+
+DailyPlan
+Attributes
+tasks_selected
+total_time
+Methods
+display_plan()
 
 **b. Design changes**
 
-- Did your design change during implementation?
+- Did your design change during implementation? Yes
 - If yes, describe at least one change and why you made it.
+ladded a pet_name field to CareTask so tasks can be traced back to their pet, updated add_pet () to automatically pull in a pet's default tasks when it's added to the owner, and removed the redundant max_minutes from Scheduler so the owner's time_available_minutes is the single time constraint used when building a plan.
 
 ---
 
